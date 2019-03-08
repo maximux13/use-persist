@@ -1,0 +1,32 @@
+{
+  "name": "use-persist",
+  "version": "0.0.1",
+  "description": "usePersist it's a hook to allow you store data in localstorage",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "localstorage",
+    "persist"
+  ],
+  "author": {
+    "name": "Andres Alarcon",
+    "email": "maximux13@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maximux13/use-persist.git"
+  },
+  "bugs": {
+    "url": "https://github.com/maximux13/use-persist/issues"
+  },
+  "homepage": "https://github.com/maximux13/use-persist",
+  "devDependencies": {
+    "esm": "^3.2.13",
+    "jest": "^24.3.1"
+  }
+}

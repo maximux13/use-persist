@@ -1,0 +1,16 @@
+# logs
+*.log
+npm-debug.log*
+
+# npm package lock
+package-lock.json
+yarn.lock
+
+# dependecies
+node_modules
+
+# project files
+src
+test
+.prettierrc
+.gitignore
