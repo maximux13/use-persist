@@ -1,6 +1,9 @@
+const isPlainObject = require('./isPlainObject');
 const reduceByKey = require('./reduceByKey');
 
 module.exports = function omit(value, blacklist) {
+  if (!isPlainObject(value)) return value;
+
   return Object.keys(blacklist).reduce((obj, key) => {
     const current = blacklist[key];
 
@@ -9,7 +12,7 @@ module.exports = function omit(value, blacklist) {
     }
     if (Array.isArray(current)) {
       if (current.every(filter => typeof filter === 'string')) {
-        if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+        if (isPlainObject(obj[key])) {
           return {
             ...obj,
             [key]: reduceByKey(obj[key], current),
@@ -19,7 +22,7 @@ module.exports = function omit(value, blacklist) {
         throw Error(`Your config key: "${key}" has an invalid key`);
       }
     } else if (typeof current === 'object') {
-      if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+      if (isPlainObject(obj[key])) {
         return {
           ...obj,
           [key]: omit(obj[key], current),
