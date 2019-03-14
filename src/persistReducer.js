@@ -1,9 +1,9 @@
-const React = require('react');
-const merge = require('deepmerge');
+import React from 'react';
+import merge from 'deepmerge';
 
-const persist = require('./persist');
+import persist from './persist';
 
-module.exports = function usePersistReducer(
+export default function usePersistReducer(
   config,
   reducer,
   initialState = {},
@@ -27,4 +27,4 @@ module.exports = function usePersistReducer(
   }, [state]);
 
   return [state, dispatch];
-};
+}

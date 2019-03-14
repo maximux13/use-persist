@@ -1,7 +1,7 @@
-const isPlainObject = require('./isPlainObject');
-const reduceByKey = require('./reduceByKey');
+import isPlainObject from './isPlainObject';
+import reduceByKey from './reduceByKey';
 
-module.exports = function omit(value, blacklist) {
+export default function omit(value, blacklist) {
   if (!isPlainObject(value)) return value;
 
   return Object.keys(blacklist).reduce((obj, key) => {
@@ -39,4 +39,4 @@ module.exports = function omit(value, blacklist) {
       [key]: obj[key],
     };
   }, value);
-};
+}

@@ -1,3 +1,3 @@
-module.exports = function isPlainObject(obj) {
-	return Object.prototype.toString.call(obj) === '[object Object]';
-};
+export default function isPlainObject(obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+}

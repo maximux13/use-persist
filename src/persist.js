@@ -1,6 +1,6 @@
-const omit = require('./utils/omit');
+import omit from './utils/omit';
 
-module.exports = function persist({
+export default function persist({
   key,
   blacklist = {},
   storage = localStorage,
@@ -24,4 +24,4 @@ module.exports = function persist({
     setValue,
     getValue,
   };
-};
+}

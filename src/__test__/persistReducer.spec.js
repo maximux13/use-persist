@@ -1,7 +1,7 @@
-const { renderHook, cleanup, act } = require('react-hooks-testing-library');
+import { renderHook, cleanup, act } from 'react-hooks-testing-library';
 
-const fakeStorage = require('./mockStorage');
-const { usePersistReducer } = require('../');
+import fakeStorage from './mockStorage';
+import { usePersistReducer } from '../';
 
 const defaultConfig = {
   key: 'app',

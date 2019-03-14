@@ -1,9 +1,9 @@
-const React = require('react');
-const merge = require('deepmerge');
+import React from 'react';
+import merge from 'deepmerge';
 
-const persist = require('./persist');
+import persist from './persist';
 
-module.exports = function usePersistState(config, defaultValue = {}) {
+export default function usePersistState(config, defaultValue = {}) {
   const persistInstance = React.useMemo(() => persist(config), [config]);
 
   const [value, setValue] = React.useState(() => {
@@ -23,4 +23,4 @@ module.exports = function usePersistState(config, defaultValue = {}) {
   }
 
   return [value, storeValue];
-};
+}

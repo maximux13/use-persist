@@ -1,7 +1,7 @@
-const { renderHook, cleanup, act } = require('react-hooks-testing-library');
+import { renderHook, cleanup, act } from 'react-hooks-testing-library';
 
-const fakeStorage = require('./mockStorage');
-const { usePersistState } = require('../');
+import fakeStorage from './mockStorage';
+import { usePersistState } from '../';
 
 const defaultConfig = {
   key: 'app',
@@ -63,9 +63,9 @@ describe('usePersist', () => {
       setValue({ auth: { token: 'abc', isLoading: false } });
     });
 
-    [newValue] = result.current;
+    [value] = result.current;
 
-    expect(newValue).toEqual({ auth: { token: 'abc', isLoading: false } });
+    expect(value).toEqual({ auth: { token: 'abc', isLoading: false } });
     expect(fakeStorage.getItem(config.key)).toEqual(JSON.stringify({}));
   });
 

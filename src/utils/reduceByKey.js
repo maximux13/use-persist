@@ -1,4 +1,4 @@
-module.exports = function reduceByKey(obj, keys) {
+export default function reduceByKey(obj, keys) {
   return Object.keys(obj).reduce((updateObj, key) => {
     if (!keys.includes(key)) {
       return {
@@ -8,4 +8,4 @@ module.exports = function reduceByKey(obj, keys) {
     }
     return updateObj;
   }, {});
-};
+}

@@ -1,5 +1,5 @@
 const mockStorage = () => {
-  state = {};
+  let state = {};
 
   function setItem(key, value) {
     state[key] = value;
@@ -20,4 +20,4 @@ const mockStorage = () => {
   };
 };
 
-module.exports = mockStorage();
+export default mockStorage();
