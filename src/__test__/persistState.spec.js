@@ -3,28 +3,6 @@ const { renderHook, cleanup, act } = require('react-hooks-testing-library');
 const fakeStorage = require('./mockStorage');
 const { usePersistState } = require('../');
 
-const mockStorage = () => {
-  state = {};
-
-  function setItem(key, value) {
-    state[key] = value;
-  }
-
-  function getItem(key) {
-    return state[key];
-  }
-
-  function clear() {
-    state = {};
-  }
-
-  return {
-    setItem,
-    getItem,
-    clear,
-  };
-};
-
 const defaultConfig = {
   key: 'app',
   storage: fakeStorage,
