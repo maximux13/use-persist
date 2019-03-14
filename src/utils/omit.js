@@ -19,7 +19,9 @@ module.exports = function omit(value, blacklist) {
           };
         }
       } else {
-        throw Error(`Your config key: "${key}" has an invalid key`);
+        throw Error(
+          `@persist: Your blacklist config "${key}" has an invalid key, please check all values are strings`
+        );
       }
     } else if (typeof current === 'object') {
       if (isPlainObject(obj[key])) {
@@ -29,7 +31,7 @@ module.exports = function omit(value, blacklist) {
         };
       }
       // prettier-ignore
-      throw Error(`Your config key: "${key}" is an object but in you value it seems that you are not using an object`);
+      throw Error(`@persist: Your blacklist config "${key}" is an object but in you value it seems that you are not using an object`);
     }
 
     return {

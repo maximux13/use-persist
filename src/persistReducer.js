@@ -1,47 +1,30 @@
 const React = require('react');
 const merge = require('deepmerge');
 
-const omit = require('./utils/omit');
+const persist = require('./persist');
 
 module.exports = function usePersistReducer(
-  { key, blacklist = {}, storage = localStorage },
+  config,
   reducer,
-  initialState,
-  init = (state) => state
+  initialState = {},
+  init = state => state
 ) {
+  const persistInstance = React.useMemo(() => persist(config), [config]);
+
   const [state, dispatch] = React.useReducer(reducer, initialState, () => {
-    try {
-      const state = storage.getItem(key);
+    const storedValue = persistInstance.getValue();
 
-      if (value) {
-        const storedState = JSON.parse(value);
-
-        return merge(storedState, initialState);
-      } else {
-        const filteredValue = omit(initialState, blacklist);
-        const stringifyValue = JSON.stringify(filteredValue);
-        storage.setItem(key, stringifyValue);
-
-        return init(initialState);
-      }
-    } catch (err) {
-      console.error(err);
-      return null;
+    if (storedValue) {
+      return init(merge(initialState, storedValue));
+    } else {
+      persistInstance.setValue(initialState);
+      return init(initialState);
     }
   });
 
   React.useEffect(() => {
-    try {
-      const filteredValue = omit(state, blacklist);
-      const stringifyValue = JSON.stringify(filteredValue);
-      storage.setItem(key, stringifyValue);
-
-      setValue(state);
-    } catch (err) {
-      console.error(err);
-    }
+    persistInstance.setValue(state);
   }, [state]);
-
 
   return [state, dispatch];
 };

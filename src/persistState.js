@@ -1,41 +1,25 @@
 const React = require('react');
 const merge = require('deepmerge');
 
-const omit = require('./utils/omit');
+const persist = require('./persist');
 
-module.exports = function usePersistState(
-  { key, blacklist = {}, storage = localStorage },
-  defaultValue = {}
-) {
+module.exports = function usePersistState(config, defaultValue = {}) {
+  const persistInstance = React.useMemo(() => persist(config), [config]);
+
   const [value, setValue] = React.useState(() => {
-    try {
-      const value = storage.getItem(key);
+    const storedValue = persistInstance.getValue();
 
-      if (value) {
-        const storedValue = JSON.parse(value);
-        return merge(defaultValue, storedValue);
-      } else {
-        const filteredValue = omit(defaultValue, blacklist);
-        const stringifyValue = JSON.stringify(filteredValue);
-        storage.setItem(key, stringifyValue);
-        return defaultValue;
-      }
-    } catch (err) {
-      console.error(err);
-      return null;
+    if (storedValue) {
+      return merge(defaultValue, storedValue);
+    } else {
+      persistInstance.setValue(defaultValue);
+      return defaultValue;
     }
   });
 
   function storeValue(value) {
-    try {
-      const filteredValue = omit(value, blacklist);
-      const stringifyValue = JSON.stringify(filteredValue);
-      storage.setItem(key, stringifyValue);
-
-      setValue(value);
-    } catch (err) {
-      console.error(err);
-    }
+    persistInstance.setValue(value);
+    setValue(value);
   }
 
   return [value, storeValue];
