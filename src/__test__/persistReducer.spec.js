@@ -25,8 +25,8 @@ describe('usePersist', () => {
 
     let [state, dispatch] = result.current;
 
-    expect(state).toEqual({});
-    expect(fakeStorage.getItem(config.key)).toEqual('{}');
+    expect(state).toEqual(undefined);
+    expect(fakeStorage.getItem(config.key)).toEqual(JSON.stringify(undefined));
   });
 
   test('Should initialize with a merged object between defaultValue and stored value', () => {

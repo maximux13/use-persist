@@ -2,11 +2,12 @@ import React from 'react';
 import merge from 'deepmerge';
 
 import persist from './persist';
+import isPlainObject from './utils/isPlainObject';
 
 export default function usePersistReducer(
   config,
   reducer,
-  initialState = {},
+  initialState,
   init = state => state
 ) {
   const persistInstance = React.useMemo(() => persist(config), [config]);
@@ -15,7 +16,10 @@ export default function usePersistReducer(
     const storedValue = persistInstance.getValue();
 
     if (storedValue) {
-      return init(merge(initialState, storedValue));
+      if (isPlainObject(initialState)) {
+        return init(merge(initialState, storedValue));
+      }
+      return storedValue;
     } else {
       persistInstance.setValue(initialState);
       return init(initialState);

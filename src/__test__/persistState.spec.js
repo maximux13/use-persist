@@ -15,34 +15,60 @@ describe('usePersist', () => {
     fakeStorage.clear();
   });
 
-  test('Should initialize with an empty object if defaultValue is not defined', () => {
-    const blacklist = { auth: true };
-    const config = { ...defaultConfig, blacklist: blacklist };
+  test('Should initialize with undefined if defaultValue is not defined', () => {
+    const config = { ...defaultConfig };
 
     const { result } = renderHook(() => usePersistState(config));
 
     let [value, setValue] = result.current;
 
-    expect(value).toEqual({});
-    expect(fakeStorage.getItem(config.key)).toEqual('{}');
+    expect(value).toEqual(undefined);
+    expect(fakeStorage.getItem(config.key)).toEqual(JSON.stringify(undefined));
+  });
+
+  test('Should allow non object types: number, array, boolean', () => {
+    const config = { ...defaultConfig };
+
+    const { result: numberResult } = renderHook(() =>
+      usePersistState(config, 0)
+    );
+
+    let [value, setValue] = numberResult.current;
+
+    expect(value).toEqual(0);
+    expect(fakeStorage.getItem(config.key)).toEqual(JSON.stringify(0));
+  });
+
+  test('Should initialize with stored value if value is not an object', () => {
+    const config = { ...defaultConfig };
+
+    fakeStorage.setItem(config.key, '1');
+
+    const { result } = renderHook(() => usePersistState(config, 0));
+
+    let [value, setValue] = result.current;
+
+    expect(value).toEqual(1);
+    expect(fakeStorage.getItem(config.key)).toEqual('1');
   });
 
   test('Should initialize with a merged object between defaultValue and stored value', () => {
-    const blacklist = { auth: ['isLoading'] };
+    const blacklist = { isLoading: true };
     const config = { ...defaultConfig, blacklist: blacklist };
 
-    fakeStorage.setItem(config.key, '{"auth":{"token":"abc"}}');
+    fakeStorage.setItem(config.key, '{"token":"abc"}');
 
     const { result } = renderHook(() =>
       usePersistState(config, {
-        auth: { token: null, isLoading: false },
+        token: null,
+        isLoading: false,
       })
     );
 
     let [value, setValue] = result.current;
 
-    expect(value).toEqual({ auth: { token: 'abc', isLoading: false } });
-    expect(fakeStorage.getItem(config.key)).toEqual('{"auth":{"token":"abc"}}');
+    expect(value).toEqual({ token: 'abc', isLoading: false });
+    expect(fakeStorage.getItem(config.key)).toEqual('{"token":"abc"}');
   });
 
   test('Should omit whole auth key if blacklist { auth: true }', () => {
