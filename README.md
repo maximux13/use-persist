@@ -14,57 +14,60 @@ yarn add use-persist
 npm install --save use-persist
 ```
 
-### usePersist
+### `usePersistState`
 
 ```js
-const { setValue, getValue } = usePersist(key, config)
+import { usePersistState } from 'use-persist';
+
+const [state, setState] = usePersist(config, initialState);
 ```
 
-### API
-
-| argument | type | default
-|----------|------|--------|
-| key | string | undefined |
-| config | object | `{ blacklist: {}, storage: localStorage }` |
-
-`config.blacklist = {}`
+### `usePersistReducer`
 
 ```js
-const value = { auth: { token: 'abc123', isLoading: false, user: { firstName: 'John', lastName: 'Doe' } } }
+import { usePersistReducer } from 'use-persist';
+
+const [state, dispatch] = usePersist(config, reducer, initialState, init);
+```
+
+### Config
+
+| argument  | type     | required | default        |
+| --------- | -------- | -------- | -------------- |
+| key       | `string` | `true`   |                |
+| blacklist | `object` | `false`  | `{}`           |
+| storage   | `object` | `false`  | `localStorage` |
+
+`config.key: string`
+
+Use `key` to set a indentifier to the value you want to store.
+
+`config.blacklist: object = {}`
+
+Use `blacklist` object to describe the keys you want to omit in the stored value.
+
+```js
+const value = {
+  auth: {
+    token: 'abc123',
+    isLoading: false,
+    user: { firstName: 'John', lastName: 'Doe' },
+  },
+};
 
 // If you want to remove the whole `auth` key in the stored value, use `key: true` syntax
 // Result: {}
-const blacklist = { auth: true }
+const blacklist = { auth: true };
+
 // If you want to remove partial keys in the stored value, use an array with the list of keys to remove `key: [string, [...string]]`
 // Result: { auth: { token: 'abc123', user: { firstName: 'John', lastName: 'Doe' } } }
-const blacklist = { auth: ['isLoading'] }
+const blacklist = { auth: ['isLoading'] };
+
 // If you want to remove nested values in the stored value, use an object syntax
 // Result: { auth: { token: 'abc123', user: { firstName: 'John' } } }
-const blacklist = { auth: { user: ['lastName'], isLoading: true } }
+const blacklist = { auth: { user: ['lastName'], isLoading: true } };
 ```
 
 `config.storage = localStorage`
 
 By default we set `localStorage` as a default storage handler, but you could also use `sessionStorage` or make your custom implementation based on [Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Storage) interface.
-
-### Return values:
-
-`setValue: (value: object) => void`
-
-the `setValue` function is used to update the value in your storage
-
-`getValue: () => *`
-
-the `getValue` function is used retrieve the data stored
-
-## Usage:
-
-```js
-import usePersist from 'use-persist';
-
-const value = { auth: { token: 'yolo', isLoading: true } };
-
-const { setValue, getValue } = usePersist('key', { blacklist: { auth: ['isLoading'] } });
-
-setValue(value);
-```

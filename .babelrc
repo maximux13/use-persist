@@ -1,0 +1,9 @@
+{
+  "env": {
+    "production": {
+      "presets": ["@babel/preset-env"],
+      "plugins": ["minify-dead-code-elimination"]
+    }
+  },
+  "presets": ["@babel/preset-env"]
+}
