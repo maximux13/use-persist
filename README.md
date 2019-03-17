@@ -19,7 +19,7 @@ npm install --save use-persist
 ```js
 import { usePersistState } from 'use-persist';
 
-const [state, setState] = usePersist(config, initialState);
+const [state, setState] = usePersistState(config, initialState);
 ```
 
 ### `usePersistReducer`
@@ -27,7 +27,7 @@ const [state, setState] = usePersist(config, initialState);
 ```js
 import { usePersistReducer } from 'use-persist';
 
-const [state, dispatch] = usePersist(config, reducer, initialState, init);
+const [state, dispatch] = usePersistReducer(config, reducer, initialState, init);
 ```
 
 ### Config
