@@ -21,10 +21,10 @@ export default function usePersistState(config, defaultValue) {
     }
   });
 
-  function storeValue(value) {
-    const valueToStore = value instanceof Function
-      ? value(storedValue)
-      : value;
+  function storeValue(newValue) {
+    const valueToStore = newValue instanceof Function
+      ? newValue(value)
+      : newValue;
 
     setValue(valueToStore);
 

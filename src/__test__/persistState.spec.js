@@ -15,6 +15,42 @@ describe('usePersist', () => {
     fakeStorage.clear();
   });
 
+  test('Should follow the same API than useState', () => {
+    const config = { ...defaultConfig };
+
+    const { result } = renderHook(() =>
+      usePersistState(config, {
+        a: true,
+      })
+    );
+
+    let [value, setValue] = result.current;
+
+    expect(value).toEqual({ a: true });
+
+    act(() => {
+      setValue((prevValue) => ({ ...prevValue, b: true }));
+    });
+
+    [value] = result.current;
+
+    expect(value).toEqual({ a: true, b: true });
+    expect(fakeStorage.getItem(config.key)).toEqual(
+      JSON.stringify({ a: true, b: true })
+    );
+
+    act(() => {
+      setValue({ c: true });
+    });
+
+    [value] = result.current;
+
+    expect(value).toEqual({ c: true });
+    expect(fakeStorage.getItem(config.key)).toEqual(
+      JSON.stringify({ c: true })
+    );
+  });
+
   test('Should initialize with undefined if defaultValue is not defined', () => {
     const config = { ...defaultConfig };
 
