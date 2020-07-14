@@ -22,8 +22,13 @@ export default function usePersistState(config, defaultValue) {
   });
 
   function storeValue(value) {
-    persistInstance.setValue(value);
-    setValue(value);
+    const valueToStore = value instanceof Function
+      ? value(storedValue)
+      : value;
+
+    setValue(valueToStore);
+
+    persistInstance.setValue(valueToStore);
   }
 
   return [value, storeValue];
