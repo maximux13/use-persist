@@ -21,15 +21,17 @@ export default function usePersistState(config, defaultValue) {
     }
   });
 
-  function storeValue(newValue) {
-    const valueToStore = newValue instanceof Function
-      ? newValue(value)
-      : newValue;
+  const storeValue = React.useCallback(
+    (newValue) => {
+      const valueToStore =
+        newValue instanceof Function ? newValue(value) : newValue;
 
-    setValue(valueToStore);
+      setValue(valueToStore);
 
-    persistInstance.setValue(valueToStore);
-  }
+      persistInstance.setValue(valueToStore);
+    },
+    [value]
+  );
 
   return [value, storeValue];
 }
