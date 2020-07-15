@@ -1,6 +1,6 @@
 {
   "name": "use-persist",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "usePersist it's a hook to allow you store data in localstorage",
   "main": "dist/index.js",
   "files": [
